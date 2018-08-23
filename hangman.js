@@ -78,7 +78,7 @@ document.onkeyup = function(event){
     };
 
     //checks if userguess is in magicWord and displays correct guesses on screen
-    if (magicWord.indexOf(userGuess.letter) >= 0){
+    if (magicWord.indexOf(userGuess.letter) >= 0 && guessBank.indexOf(userGuess.letter) === -1){
         var match = userGuess.indexNo();
         var unique = userGuess.removeDuplicates(match);
         for(let i=0; i < unique.length; i++){
@@ -89,8 +89,13 @@ document.onkeyup = function(event){
         correctGuesses.push(userGuess.letter);
     }
 
-    else {
+
+    else if (guessBank.indexOf(userGuess.letter) === -1){
         guessBank.push(userGuess.letter);
+    }
+
+    else{
+        alert("You've already guessed that letter")
     }
  
     //when you lose the game
