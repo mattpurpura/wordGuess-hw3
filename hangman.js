@@ -2,10 +2,10 @@
 var wins = 0;
 var losses = 0;
 var wordBank = ["lagunitas", "guinness"]
-var magicWord = []; var magicIndex = 0;
+var magicWord = []; var selector = 0;
     // takes elements from wordBank and creates an array of indivudual letters
-    for (var i = 0; i < wordBank[magicIndex].length; i++) {
-        magicWord.push(wordBank[magicIndex].charAt(i));
+    for (var i = 0; i < wordBank[selector].length; i++) {
+        magicWord.push(wordBank[selector].charAt(i));
     }
 var guessesLeft = 12;
 var guessBank = [];
@@ -17,11 +17,40 @@ var gameDisplay = [];
 
 document.getElementById("myWord").textContent = gameDisplay.join(" ");
 
-console.log(magicWord);
+
+//FUNCTIONS
+//============================================================
+
+function pickWord(){
+    if (selector < wordBank.length){
+        magicWord = wordBank[selector];
+    }
+
+    else{
+        console.log(gameOver)
+    }
+}
+
+function separateLetters(){
+    if(selector < wordBank.length){
+    for (var i = 0; i < wordBank[selector].length; i++) {
+        magicWord.push(wordBank[selector].charAt(i));
+    }
+}
+
+
+
+
+
+
+//the game starts on key release
 document.onkeyup = function(event){
     guessesLeft--;
+    var correctGuesses = [];
     var userGuess = {
         letter: event.key.toLowerCase(),
+
+        //collects the index of every occurence of userGuess within the magicWord and and returns a new array
         indexNo: function(){
             var indexArray = [];
             for (let i = 0; i < magicWord.length; i++){
@@ -30,6 +59,7 @@ document.onkeyup = function(event){
             return indexArray;
         },
 
+        //removes duplicates within a given array and returns new array
         removeDuplicates: function(array){
             var uniqueArray = [];
             for(let i = 0; i < array.length; i++){
@@ -41,7 +71,7 @@ document.onkeyup = function(event){
         }
     };
 
-    var correctGuesses = [];
+    //checks if userguess is in magicWord and displays correct guesses on screen
     if (magicWord.indexOf(userGuess.letter) >= 0){
         var match = userGuess.indexNo();
         var unique = userGuess.removeDuplicates(match);
@@ -52,25 +82,26 @@ document.onkeyup = function(event){
         }
         correctGuesses.push(userGuess.letter);
     }
+
     else {
-        
         guessBank.push(userGuess.letter);
     }
-    
+ 
+    //when you lose the game
     if(guessesLeft === 0){
         guessesLeft === 12;
         losses++;
         guessBank = [];
+        selector++
+        pickWord();
     }
 
+    //when you win the game
     if (correctGuesses.length === magicWord.length){
         wins++;
         guessBank = [];
     }
-    console.log(guessBank);
-    console.log(guessesLeft);
-    console.log(gameDisplay);
-
+    
     document.getElementById("myWord").textContent = gameDisplay.join(" ");
     document.getElementById("winCount").textContent = wins;
     document.getElementById("lossCount").textContent = losses;
