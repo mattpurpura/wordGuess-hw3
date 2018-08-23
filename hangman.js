@@ -1,7 +1,7 @@
 //set of initial variables
 var wins = 0;
 var losses = 0;
-var wordBank = ["lagunitas", "guinness"]
+var wordBank = ["lagunitas", "guinness", "budweiser", "corona", "miller"]
 var magicWord = []; var selector = 0;
     // takes elements from wordBank and creates an array of indivudual letters
     for (var i = 0; i < wordBank[selector].length; i++) {
@@ -9,11 +9,16 @@ var magicWord = []; var selector = 0;
     }
 var guessesLeft = 12;
 var guessBank = [];
-var gameDisplay = [];
-    // Creates an array of "_" in equal length to magicWord
+
+function createDisplay(){
+    let hiddenWord = [];
     for (var j = 0; j < magicWord.length; j++){
-        gameDisplay.push("_");
+        hiddenWord.push("_");
     }
+    return hiddenWord;
+}
+
+var gameDisplay = createDisplay();
 
 document.getElementById("myWord").textContent = gameDisplay.join(" ");
 
@@ -21,27 +26,28 @@ document.getElementById("myWord").textContent = gameDisplay.join(" ");
 //FUNCTIONS
 //============================================================
 
-function pickWord(){
-    if (selector < wordBank.length){
-        magicWord = wordBank[selector];
+// function pickWord(){
+//     if (selector < wordBank.length){
+//         magicWord = wordBank[selector];
+//     }
+
+//     else{
+//         console.log(gameOver)
+//     }
+// }
+
+function pickNewWord(){
+    magicWord = [];
+    if(selector < wordBank.length){
+    for (let i = 0; i < wordBank[selector].length; i++){
+        magicWord.push(wordBank[selector].charAt(i));
+        }
     }
 
     else{
-        console.log(gameOver)
+        alert("Game Over");
     }
 }
-
-function separateLetters(){
-    if(selector < wordBank.length){
-    for (var i = 0; i < wordBank[selector].length; i++) {
-        magicWord.push(wordBank[selector].charAt(i));
-    }
-}
-
-
-
-
-
 
 //the game starts on key release
 document.onkeyup = function(event){
@@ -93,13 +99,23 @@ document.onkeyup = function(event){
         losses++;
         guessBank = [];
         selector++
-        pickWord();
+        magicWord = [];
+        pickNewWord();
+        gameDisplay = createDisplay();
     }
 
     //when you win the game
-    if (correctGuesses.length === magicWord.length){
+    // if (gameDisplay === magicWord){
+    //     wins++;
+    //     guessBank = [];
+    if(gameDisplay.indexOf("_") === -1){
         wins++;
+        guessesLeft = 12;
         guessBank = [];
+        selector ++;
+        magicWord = [];
+        pickNewWord();
+        gameDisplay = createDisplay();
     }
     
     document.getElementById("myWord").textContent = gameDisplay.join(" ");
@@ -108,4 +124,3 @@ document.onkeyup = function(event){
     document.getElementById("guessCount").textContent = guessesLeft;
     document.getElementById("pastGuesses").textContent = guessBank;
 }
-    
