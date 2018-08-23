@@ -24,13 +24,31 @@ document.getElementById("myWord").textContent = gameDisplay.join(" ");
 
 console.log(magicWord);
 document.onkeyup = function(event){
-    var userGuess = event.key.toLowerCase();
-    var userIndex = [];
+    var userGuess = {
+        letter: event.key.toLowerCase(),
+        indexNo: [],
 
+        createIndexArray: function(){
+            for (let i = 0; i < magicWord.length; i++){
+                userGuess.indexNo.push(magicWord.indexOf(userGuess.letter, i));
+            }
+        },
+
+        removeDuplicates: function(array){
+            var uniqueArray = [];
+            for(let i = 0; i < array.length; i++){
+                if(unique_array.indexOf(array[i]) === -1){
+                    uniqueArray.push(array[i]);
+                }
+            }
+            return uniqueArray;
+        }
+    };
+    
     if (magicWord.indexOf(userGuess) >= 0){
         correctGuesses.push(userGuess);
         for (let i = 0; i < magicWord.length; i++){
-           userIndex.push(magicWord.indexOf(userGuess, i));
+            userIndex.push(magicWord.indexOf(userGuess, i));
         }
         console.log(userIndex);
         
