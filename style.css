@@ -1,0 +1,27 @@
+*{
+    position: relative;
+    box-sizing: border-box;
+}
+
+body{
+    background-image: url("http://www.awijare.com/wp-content/uploads/2017/03/hanging.jpg"); 
+    padding-left: 200px;
+}
+
+#game-name{
+    margin-top: 50px;
+    color: white;
+}
+
+#myWord{
+    margin-bottom: 30px;
+    color: white;
+}
+
+h3{
+    color: white;
+}
+
+h6{
+    color: white;
+}

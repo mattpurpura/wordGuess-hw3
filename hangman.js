@@ -22,20 +22,6 @@ var gameDisplay = createDisplay();
 
 document.getElementById("myWord").textContent = gameDisplay.join(" ");
 
-
-//FUNCTIONS
-//============================================================
-
-// function pickWord(){
-//     if (selector < wordBank.length){
-//         magicWord = wordBank[selector];
-//     }
-
-//     else{
-//         console.log(gameOver)
-//     }
-// }
-
 function pickNewWord(){
     magicWord = [];
     if(selector < wordBank.length){
@@ -51,8 +37,6 @@ function pickNewWord(){
 
 //the game starts on key release
 document.onkeyup = function(event){
-    guessesLeft--;
-    var correctGuesses = [];
     var userGuess = {
         letter: event.key.toLowerCase(),
 
@@ -86,14 +70,15 @@ document.onkeyup = function(event){
             gameDisplay[unique[i]] = userGuess.letter;
             }
         }
-        correctGuesses.push(userGuess.letter);
     }
 
-
+    //if userGuess is incorrect and also a unique guess
     else if (guessBank.indexOf(userGuess.letter) === -1){
         guessBank.push(userGuess.letter);
+        guessesLeft--;
     }
 
+    // when user guesses a repeat letter
     else{
         alert("You've already guessed that letter")
     }
@@ -110,9 +95,6 @@ document.onkeyup = function(event){
     }
 
     //when you win the game
-    // if (gameDisplay === magicWord){
-    //     wins++;
-    //     guessBank = [];
     if(gameDisplay.indexOf("_") === -1){
         wins++;
         guessesLeft = 12;
@@ -122,7 +104,8 @@ document.onkeyup = function(event){
         pickNewWord();
         gameDisplay = createDisplay();
     }
-    
+
+    //Editing html with updated variables
     document.getElementById("myWord").textContent = gameDisplay.join(" ");
     document.getElementById("winCount").textContent = wins;
     document.getElementById("lossCount").textContent = losses;
